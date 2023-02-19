@@ -26,9 +26,10 @@ const questions = [
         message: "what are the usage instructions?"
     },
     {
-        type: "input",
+        type: "list",
         name: "licence",
-        message: "what licence are you using?"
+        message: "what licence are you using?",
+        choices: ["None","MIT","Apache","Mozilla", "GNU"],
     },
     {
         type: "input",
@@ -38,29 +39,52 @@ const questions = [
     {
         type: "input",
         name: "tests",
-        message: "banana tests"
+        message: "how has this been tested?"
     },
     {
         type: "input",
         name: "questions",
-        message: "banana questions"
+        message: "how can people contact you to ask questions?"
     }
 ];
+
 
 const promptUser = (questions) => {
     inquirer.prompt(questions)
     .then((answers) => {
-        
-        const mdContent = generateMarkdown(answers);
+        new_answers = mitBadge(answers);
+        console.log(new_answers);
+        const mdContent = generateMarkdown(new_answers);
+
         writeToFile('README.md', mdContent);
          
     })
 }
 
+function mitBadge (promptAnswers){
+    console.log("chosen=" + promptAnswers.licence)
+    if(promptAnswers.licence === "None"){
+        promptAnswers.licence = "No licence was used"
+    }
+    else if(promptAnswers.licence === "MIT"){
+        promptAnswers.licence = "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)"
+    }
+    else if(promptAnswers.licence === "Apache"){
+        promptAnswers.licence = "[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)"
+    }
+    else if(promptAnswers.licence === "Mozilla"){
+        promptAnswers.licence = "[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)"
+    }
+    else if(promptAnswers.licence === "GNU"){
+        promptAnswers.licence = "[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)"
+    }
+
+    return promptAnswers
+}
+
 // function to write README file
 function writeToFile(fileName, data) {
     //fs.writeFileSync('ReadMe.md')
-    console.log(process.cwd());
     fs.writeFile(path.join(process.cwd() + "/dist/" + fileName), data, (err) => err && console.error(err))
 }
 
