@@ -43,8 +43,18 @@ const questions = [
     },
     {
         type: "input",
+        name: "github",
+        message: "what is your github username?"
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "what is your email address?"
+    },
+    {
+        type: "input",
         name: "questions",
-        message: "how can people contact you to ask questions?"
+        message: "how can people contact you if they have questions about your work?"
     }
 ];
 
@@ -64,19 +74,24 @@ const promptUser = (questions) => {
 function mitBadge (promptAnswers){
     console.log("chosen=" + promptAnswers.licence)
     if(promptAnswers.licence === "None"){
-        promptAnswers.licence = "No licence was used"
+        promptAnswers.licence = ""
+        promptAnswers.licenceMsg = "The application is not covered under a licence"
     }
     else if(promptAnswers.licence === "MIT"){
         promptAnswers.licence = "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)"
+        promptAnswers.licenceMsg = "The application is covered under the MIT Licence"
     }
     else if(promptAnswers.licence === "Apache"){
         promptAnswers.licence = "[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)"
+        promptAnswers.licenceMsg = "The application is covered under the Apache Licence"
     }
     else if(promptAnswers.licence === "Mozilla"){
         promptAnswers.licence = "[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)"
+        promptAnswers.licenceMsg = "The application is covered under the Mozilla Licence"
     }
     else if(promptAnswers.licence === "GNU"){
         promptAnswers.licence = "[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)"
+        promptAnswers.licenceMsg = "The application is covered under the GNU Licence"
     }
 
     return promptAnswers
@@ -85,7 +100,7 @@ function mitBadge (promptAnswers){
 // function to write README file
 function writeToFile(fileName, data) {
     //fs.writeFileSync('ReadMe.md')
-    fs.writeFile(path.join(process.cwd() + "/dist/" + fileName), data, (err) => err && console.error(err))
+    fs.writeFile(path.join(process.cwd() + "/readmeFile/" + fileName), data, (err) => err && console.error(err))
 }
 
 // function to initialize program
