@@ -58,12 +58,14 @@ const questions = [
     }
 ];
 
-
+//uses inquirer to prompt user answers
 const promptUser = (questions) => {
     inquirer.prompt(questions)
     .then((answers) => {
+        //applies MIT badge and note to chosen licence
         new_answers = mitBadge(answers);
         console.log(new_answers);
+        //makes the markdown content 
         const mdContent = generateMarkdown(new_answers);
 
         writeToFile('README.md', mdContent);
@@ -99,13 +101,11 @@ function mitBadge (promptAnswers){
 
 // function to write README file
 function writeToFile(fileName, data) {
-    //fs.writeFileSync('ReadMe.md')
     fs.writeFile(path.join(process.cwd() + "/readmeFile/" + fileName), data, (err) => err && console.error(err))
 }
 
 // function to initialize program
 function init() {
-
     promptUser(questions)
 
 }
